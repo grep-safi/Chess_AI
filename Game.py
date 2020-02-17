@@ -1,4 +1,5 @@
 import tkinter as tk
+from Chess import Chess
 
 
 class Game:
@@ -8,6 +9,8 @@ class Game:
 
         self.bg_image = tk.PhotoImage(file="images/chess_bg.png")
 
+        self.chess = Chess()
+
         # Event listeners response
         self.moves = []
         self.circles = []
@@ -15,13 +18,16 @@ class Game:
         self.current_piece = None
 
         # Binding to get click events
-        self.master.bind("<Button-1>", self.bindingFunction)
+        self.master.bind("<Button-1>", self.getClickXY)
 
         self.white_turn = True
         self.piece_clicked = False
 
-    def bindingFunction(self):
-        pass
+    def getClickXY(self, click_event):
+        x = click_event.x
+        y = click_event.y
+
+        self.move_piece(x, y)
 
 
 if __name__ == "__main__":
