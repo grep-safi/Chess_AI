@@ -39,7 +39,6 @@ class Piece:
         chess.matrix[x][y] = self
 
         if target_piece is not None:
-            print('target piece: ', target_piece.color, target_piece.x, target_piece.y)
             if target_piece.color == 'WHITE':
                 chess.white_pieces.remove(target_piece)
             elif target_piece.color == 'BLACK':

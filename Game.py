@@ -71,6 +71,7 @@ class Game:
         alpha = [None, -1000000]  # some very large number
         beta = [None, 1000000]  # some very large number
         best_move = minimax([AI_board, 10000], depth, alpha, beta, True, True)
+#        best_move = minimax([AI_board, 10000], depth, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
 
 #        print('this was the best move I could think of: ', piece_x, piece_y, move_x, move_y)
@@ -85,7 +86,6 @@ class Game:
         self.chess.print_grid()
 
         self.white_turn = not self.white_turn
-        print('end turn ---------------------------------------------------------------------')
 
     def random_AI(self):
         pieces = self.chess.black_pieces
@@ -108,6 +108,7 @@ class Game:
                 prev_x = self.current_piece.x
                 prev_y = self.current_piece.y
                 piece_move = self.current_piece.move(grid_x, grid_y, self.chess)
+                # Add typeof(piece_move, list) to add castling functionality
                 if piece_move:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)

@@ -10,9 +10,7 @@ def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
         baby_boards = get_children(mama_board, enemy=False)
         for baby_board in baby_boards:
             eval = minimax(baby_board, depth - 1, alpha, beta, False, False)
-            print('pre ----> max eval values: ', max_eval[1], eval[1])
             if (max_eval[1] < eval[1]):
-                print('max eval values: ', max_eval[1], eval[1])
                 max_eval = eval
                 if first_layer:
                     max_eval = [baby_board, eval[1]]

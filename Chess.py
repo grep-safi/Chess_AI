@@ -113,7 +113,6 @@ class Chess:
 
 #        value = total_white - total_black
         value =  total_black - total_white
-        print('Value: ', value)
         return value
 
     def new_board(self):
