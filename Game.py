@@ -81,10 +81,14 @@ class Game:
         piece = self.chess.matrix[piece_x][piece_y]
         target_piece = self.chess.matrix[move_x][move_y]
 
-        piece.move(move_x, move_y, self.chess)
-        self.move_visually(piece_x, piece_y, target_piece, piece)
- #       print('this is the final move location: ')
-        self.chess.print_grid()
+        piece_move = piece.move(move_x, move_y, self.chess)
+        if type(piece_move) is list and piece_move[3]:
+            self.move_visually(piece_x, piece_y, None, piece)
+            self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
+            # piece_move in all other cases
+        elif type(piece_move) is not list and piece_move:
+            self.move_visually(piece_x, piece_y, target_piece, piece)
+            self.move_visually(piece_x, piece_y, target_piece, piece)
 
         self.white_turn = not self.white_turn
 
