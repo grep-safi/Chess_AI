@@ -104,7 +104,7 @@ class Piece:
 class Pawn(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_PAWN.png'
-        self.val = 10
+        self.val = 100
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -157,7 +157,7 @@ class Pawn(Piece):
 class Rook(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_ROOK.png'
-        self.val = 50
+        self.val = 500
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -218,7 +218,7 @@ class Rook(Piece):
 class Knight(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_KNIGHT.png'
-        self.val = 30
+        self.val = 320
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -267,7 +267,7 @@ class Knight(Piece):
 class Bishop(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_BISHOP.png'
-        self.val = 40
+        self.val = 330
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -330,7 +330,7 @@ class Bishop(Piece):
 class Queen(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_QUEEN.png'
-        self.val = 90
+        self.val = 900
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -435,7 +435,7 @@ class Queen(Piece):
 class King(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_KING.png'
-        self.val = 1000
+        self.val = 20000
         super().__init__(color, grid_x, grid_y)
 
     def possible_moves(self, board):
@@ -537,7 +537,7 @@ class King(Piece):
             castle_side.append([king.x + (i * shift_x), king.y])
 
         if chess.cannot_castle(castle_side, self.color):
-            return False
+            return [0, 0, None, False]
 
         # Store king's previous grid locations
         king_prev_x = king.x
@@ -561,4 +561,4 @@ class King(Piece):
         king.first = False
         rook.first = False
 
-        return True
+        return [rook_prev_x, rook_prev_y, rook, True]

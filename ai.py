@@ -1,9 +1,7 @@
 def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
     if depth == 0:
         board_val = mama_board[1]
-#        print('New board variation')
         mama_board[0].print_grid()
-#        print('Finished new board variation')
         return [mama_board, board_val]
     if AI_move:
         max_eval = [None, -1000000]  # some very small number

@@ -71,6 +71,7 @@ class Game:
         alpha = [None, -1000000]  # some very large number
         beta = [None, 1000000]  # some very large number
         best_move = minimax([AI_board, 10000], depth, alpha, beta, True, True)
+        print(best_move)
 #        best_move = minimax([AI_board, 10000], depth, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
 
@@ -96,6 +97,7 @@ class Game:
             moves = rand_piece.possible_grid_moves(self.chess.matrix)
         rand_move = moves[random.randint(0, len(moves) - 1)]
         piece_move = rand_piece.move(rand_move[0], rand_move[1], self.chess)
+        # needs to be adjusted for the case of castling
         if piece_move:
             self.white_turn = not self.white_turn
         else:
@@ -108,20 +110,20 @@ class Game:
                 prev_x = self.current_piece.x
                 prev_y = self.current_piece.y
                 piece_move = self.current_piece.move(grid_x, grid_y, self.chess)
-                # Add typeof(piece_move, list) to add castling functionality
-                if piece_move:
+                # Checks for list because only castling will return list
+                # piece_move = [previous rook x, previous rook y, rook object, boolean
+                #               that returns true if castling is legal]
+                if type(piece_move) is list and piece_move[3]:
+                    self.white_turn = not self.white_turn
+                    self.move_visually(prev_x, prev_y, None, self.current_piece)
+                    self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
+                    self.minimax_AI()
+                # piece_move in all other cases
+                elif piece_move:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
-                    self.removeCircles()
                     self.minimax_AI()
         self.piece_clicked = False
-
-    def domore(self):
-        self.do()
-
-    def do(self):
-        for i in range(100000000):
-            x = 5
 
     def move_visually(self, x, y, target_piece, this_piece):
         # If we killed a piece, remove it

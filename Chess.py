@@ -112,7 +112,7 @@ class Chess:
             total_black += b_piece.val
 
 #        value = total_white - total_black
-        value =  total_black - total_white
+        value = total_black - total_white
         return value
 
     def new_board(self):
