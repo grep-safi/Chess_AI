@@ -1,19 +1,21 @@
 def minimax(mama_board, depth, AI_move, first_layer):
     if depth == 0:
         board_val = mama_board[1]
-        print('New board variation')
+#        print('New board variation')
         mama_board[0].print_grid()
-        print('Finished new board variation')
+#        print('Finished new board variation')
         return [mama_board, board_val]
     if AI_move:
         max_eval = [None, -1000000]  # some very small number
         baby_boards = get_children(mama_board, enemy=False)
         for baby_board in baby_boards:
             eval = minimax(baby_board, depth - 1, False, False)
+            print('pre ----> max eval values: ', max_eval[1], eval[1])
             if (max_eval[1] < eval[1]):
+                print('max eval values: ', max_eval[1], eval[1])
                 max_eval = eval
-            if (first_layer):
-                max_eval = [baby_board, 0]
+                if (first_layer):
+                    max_eval = [baby_board, eval[1]]
         return max_eval
     else:
         min_eval = [None, 1000000]  # some very large number
@@ -22,8 +24,8 @@ def minimax(mama_board, depth, AI_move, first_layer):
             eval = minimax(baby_board, depth - 1, True, False)
             if (min_eval[1] > eval[1]):
                 min_eval = eval
-            if (first_layer):
-                max_eval = [baby_board, 0]
+                if (first_layer):
+                    min_eval = [baby_board, eval[1]]
         return min_eval
 
 
@@ -33,9 +35,8 @@ def get_children(m_board, enemy=True):
     if enemy:
         pieces = board.white_pieces
 
-
-    print('Start ----------------------------------------------------->')
-    board.print_grid()
+#    print('Start ----------------------------------------------------->')
+#    board.print_grid()
 
     children = []
     for piece in pieces:
@@ -51,6 +52,6 @@ def get_children(m_board, enemy=True):
             piece.first = True
             piece.revert(prev_x, prev_y, target_piece, board)
 
-    board.print_grid()
-    print('End ----------------------------------------------------->')
+#    board.print_grid()
+#    print('End ----------------------------------------------------->')
     return children

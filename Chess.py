@@ -111,8 +111,9 @@ class Chess:
         for b_piece in self.black_pieces:
             total_black += b_piece.val
 
-        value = total_black - total_white
-        # print('Value: ', value)
+#        value = total_white - total_black
+        value =  total_black - total_white
+        print('Value: ', value)
         return value
 
     def new_board(self):

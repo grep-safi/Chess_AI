@@ -71,18 +71,19 @@ class Game:
         best_move = minimax([AI_board, 10000], depth, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
 
-        print('this was the best move I could think of: ', piece_x, piece_y, move_x, move_y)
-        board_obj.print_grid()
+#        print('this was the best move I could think of: ', piece_x, piece_y, move_x, move_y)
+#        board_obj.print_grid()
 
         piece = self.chess.matrix[piece_x][piece_y]
         target_piece = self.chess.matrix[move_x][move_y]
 
         piece.move(move_x, move_y, self.chess)
         self.move_visually(piece_x, piece_y, target_piece, piece)
-        print('this is the final move location: ')
+ #       print('this is the final move location: ')
         self.chess.print_grid()
 
         self.white_turn = not self.white_turn
+        print('end turn ---------------------------------------------------------------------')
 
     def random_AI(self):
         pieces = self.chess.black_pieces
@@ -137,7 +138,7 @@ class Game:
         self.cv.move(this_piece.id, difference_x, difference_y)
 
     def removeCircles(self):
-        print('someone is calling me')
+#        print('someone is calling me')
         for circle in self.circles:
             self.cv.delete(circle)
 
