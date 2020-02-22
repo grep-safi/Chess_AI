@@ -67,8 +67,10 @@ class Game:
 
     def minimax_AI(self):
         AI_board = self.chess.clone()
-        depth = 2
-        best_move = minimax([AI_board, 10000], depth, True, True)
+        depth = 3
+        alpha = [None, -1000000]  # some very large number
+        beta = [None, 1000000]  # some very large number
+        best_move = minimax([AI_board, 10000], depth, alpha, beta, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
 
 #        print('this was the best move I could think of: ', piece_x, piece_y, move_x, move_y)

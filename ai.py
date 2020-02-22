@@ -1,4 +1,4 @@
-def minimax(mama_board, depth, AI_move, first_layer):
+def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
     if depth == 0:
         board_val = mama_board[1]
 #        print('New board variation')
@@ -9,23 +9,41 @@ def minimax(mama_board, depth, AI_move, first_layer):
         max_eval = [None, -1000000]  # some very small number
         baby_boards = get_children(mama_board, enemy=False)
         for baby_board in baby_boards:
-            eval = minimax(baby_board, depth - 1, False, False)
+            eval = minimax(baby_board, depth - 1, alpha, beta, False, False)
             print('pre ----> max eval values: ', max_eval[1], eval[1])
             if (max_eval[1] < eval[1]):
                 print('max eval values: ', max_eval[1], eval[1])
                 max_eval = eval
-                if (first_layer):
+                if first_layer:
                     max_eval = [baby_board, eval[1]]
+
+            if (alpha[1] < eval[1]):
+                alpha = eval
+                if first_layer:
+                    alpha = [baby_board, eval[1]]
+
+            if beta[1] <= alpha[1]:
+                break
+
         return max_eval
     else:
         min_eval = [None, 1000000]  # some very large number
         baby_boards = get_children(mama_board, enemy=True)
         for baby_board in baby_boards:
-            eval = minimax(baby_board, depth - 1, True, False)
+            eval = minimax(baby_board, depth - 1, alpha, beta, True, False)
             if (min_eval[1] > eval[1]):
                 min_eval = eval
-                if (first_layer):
+                if first_layer:
                     min_eval = [baby_board, eval[1]]
+
+            if (beta[1] > eval[1]):
+                beta = eval
+                if first_layer:
+                    beta = [baby_board, eval[1]]
+
+            if beta[1] <= alpha[1]:
+                break
+
         return min_eval
 
 
