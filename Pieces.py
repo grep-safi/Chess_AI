@@ -24,6 +24,14 @@ class Piece:
     # Move the piece in the matrix, then return previous
     # grid positions and the target_piece
     def tentative_move(self, x, y, chess):
+
+        if isinstance(self, King) and self.attempting_castle(x, y, chess):
+            prev_king_x = self.x
+            prev_king_y = self.y
+            rook_info = self.has_castled(x, y, chess)
+            castle_info = [prev_king_x, prev_king_y, *rook_info]
+            return castle_info
+
         # Store previous grid locations
         prev_x = self.x
         prev_y = self.y

@@ -52,6 +52,8 @@ class Chess:
         # Next, check if King's pieces can move to squares that
         # will remove the check on the King
         for piece in pieces:
+            if isinstance(piece, King):
+                continue
             possible_moves = piece.possible_moves(self.matrix)
             for move in possible_moves:
                 prev_x, prev_y, t_piece = piece.tentative_move(move[0], move[1], self)

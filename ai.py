@@ -56,15 +56,30 @@ def get_children(m_board, enemy=True):
     for piece in pieces:
         possible_moves = piece.possible_moves(board.matrix)
         for move in possible_moves:
-            prev_x, prev_y, target_piece = piece.tentative_move(move[0], move[1], board)
-            viable_move = not (board.is_illegal_state(piece.color))
+            piece_move = piece.tentative_move(move[0], move[1], board)
+            viable_move = False
+            is_list = False
+            if type(piece_move) is list and piece_move[5]:
+                viable_move = True
+                is_list = True
+            elif type(piece_move) is not list and piece_move:
+                viable_move = not (board.is_illegal_state(piece.color))
+
             if viable_move:
                 piece.first = False
                 new_child = [board.clone(), board.evaluate_board(), prev_x, prev_y, piece.x, piece.y]
                 children.append(new_child)
 
+            if is_list:
+                prev_king_x, prev_king_y, prev_rook_x, prev_rook_y, rook, success = piece_move
+                piece.revert(prev_king_x, prev_king_y, None, board)
+                rook.revert(prev_rook_x, prev_rook_y, None, board)
+                rook.first = True
+            else:
+                prev_x, prev_y, target_piece = piece_move
+                piece.revert(prev_x, prev_y, target_piece, board)
+
             piece.first = True
-            piece.revert(prev_x, prev_y, target_piece, board)
 
 #    board.print_grid()
 #    print('End ----------------------------------------------------->')

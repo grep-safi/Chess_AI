@@ -119,7 +119,7 @@ class Game:
                     self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
                     self.minimax_AI()
                 # piece_move in all other cases
-                elif piece_move:
+                elif type(piece_move) is not list and piece_move:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
                     self.minimax_AI()
