@@ -35,9 +35,12 @@ class Chess:
     # Check if moving any of king's pieces to any square (including enemy
     # squares) removes it from check
     def in_checkmate(self, pieces, king):
-        king = self.black_king
-        pieces = self.black_pieces
-        enemy_pieces = self.white_pieces
+        enemy_pieces = pieces
+        friendly_pieces = None
+        if king.color == 'WHITE':
+            friendly_pieces = self.white_pieces
+        if king.color == 'BLACK':
+            friendly_pieces = self.black_pieces
 
         # First, check if king can move to legal square out of check
         possible_king_moves = king.possible_moves(self.matrix)
@@ -51,7 +54,7 @@ class Chess:
 
         # Next, check if King's pieces can move to squares that
         # will remove the check on the King
-        for piece in pieces:
+        for piece in friendly_pieces:
             if isinstance(piece, King):
                 continue
             possible_moves = piece.possible_moves(self.matrix)
@@ -63,6 +66,7 @@ class Chess:
                     return False
 
         print('CHECKMATE HAS BEEEN REACHED')
+        print(king.color, ' has been MATED!')
         return True
 
     def in_check(self, pieces, king, check_illegal=False):
@@ -113,12 +117,8 @@ class Chess:
         for b_piece in self.black_pieces:
             total_black += b_piece.val
 
-#        value = total_white - total_black
         value = total_black - total_white
         return value
-
-    def new_board(self):
-        pass
 
     def clone(self):
         board_clone = Chess(main=False)

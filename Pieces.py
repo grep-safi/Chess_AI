@@ -32,7 +32,9 @@ class Piece:
             castle_info = [prev_king_x, prev_king_y, *rook_info]
             return castle_info
 
-        # Store previous grid locations
+        if isinstance(self, Pawn) and self.is_promoting(y):
+            return self.tentative_promotion(x, y, chess)
+
         prev_x = self.x
         prev_y = self.y
 
@@ -83,11 +85,13 @@ class Piece:
             self.revert(prev_x, prev_y, target_piece, chess)
             return False
 
+        promotion = isinstance(self, Pawn) and self.is_promoting(y)
+
         # This piece has made its first move, so set
         # self.first to false
         self.first = False
 
-        return True
+        return [True, promotion]
 
     def move_AI(self, x, y, chess):
         # Move tentatively
@@ -161,6 +165,62 @@ class Pawn(Piece):
 
         return possible_moves
 
+    def is_promoting(self, y):
+        if self.color == 'WHITE' and y == 0:
+            return True
+        elif self.color == 'BLACK' and y == 7:
+            return True
+
+        return False
+
+    def tentative_promotion(self, x, y, chess):
+        prev_x = self.x
+        prev_y = self.y
+
+        chess.matrix[prev_x][prev_y] = None
+        new_queen = Queen(self.color, x, y)
+        target_piece = chess.matrix[x][y]
+        chess.matrix[x][y] = new_queen
+
+        # Code to remove the target AND THE PAWN
+        if target_piece is not None:
+            if target_piece.color == 'WHITE':
+                chess.white_pieces.remove(target_piece)
+            elif target_piece.color == 'BLACK':
+                chess.black_pieces.remove(target_piece)
+
+        if self.color == 'WHITE':
+            chess.white_pieces.remove(self)
+            chess.white_pieces.append(new_queen)
+        elif self.color == 'BLACK':
+            chess.black_pieces.remove(self)
+            chess.black_pieces.append(new_queen)
+
+        self.x = x
+        self.y = y
+
+        return [prev_x, prev_y, target_piece]
+
+    def revert_promotion(self, prev_x, prev_y, target_piece, chess):
+        queen = chess.matrix[self.x][self.y]
+        chess.matrix[self.x][self.y] = target_piece
+        if target_piece is not None:
+            if target_piece.color == 'WHITE':
+                chess.white_pieces.append(target_piece)
+            elif target_piece.color == 'BLACK':
+                chess.black_pieces.append(target_piece)
+
+        if self.color == 'WHITE':
+            chess.white_pieces.append(self)
+            chess.white_pieces.remove(queen)
+        elif self.color == 'BLACK':
+            chess.black_pieces.append(self)
+            chess.black_pieces.remove(queen)
+
+        chess.matrix[prev_x][prev_y] = self
+
+        self.x = prev_x
+        self.y = prev_y
 
 class Rook(Piece):
     def __init__(self, color, grid_x, grid_y):

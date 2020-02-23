@@ -60,7 +60,6 @@ def get_children(m_board, enemy=True):
             prev_x, prev_y = piece_move[0], piece_move[1]
             viable_move = False
             tried_castling = False
-            print('i am the piece move', piece_move)
             if len(piece_move) == 6:
                 viable_move = piece_move[5]
                 tried_castling = True
