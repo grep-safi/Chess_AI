@@ -49,9 +49,9 @@ class Piece:
         chess.matrix[x][y] = self
 
         if target_piece is not None:
-            if target_piece.color == 'WHITE':
+            if target_piece.color == 'WHITE' and target_piece in chess.white_pieces:
                 chess.white_pieces.remove(target_piece)
-            elif target_piece.color == 'BLACK':
+            elif target_piece.color == 'BLACK' and target_piece in chess.black_pieces:
                 chess.black_pieces.remove(target_piece)
 
         return [prev_x, prev_y, target_piece]
@@ -189,10 +189,10 @@ class Pawn(Piece):
             elif target_piece.color == 'BLACK':
                 chess.black_pieces.remove(target_piece)
 
-        if self.color == 'WHITE':
+        if self.color == 'WHITE' and self in chess.white_pieces:
             chess.white_pieces.remove(self)
             chess.white_pieces.append(new_queen)
-        elif self.color == 'BLACK':
+        elif self.color == 'BLACK' and self in chess.black_pieces:
             chess.black_pieces.remove(self)
             chess.black_pieces.append(new_queen)
 

@@ -95,7 +95,6 @@ class Game:
             promoted_id = self.cv.create_image(promoted_x, promoted_y, image=promoted_image, anchor='nw')
             promoted_piece.id = promoted_id
             self.cv.delete(piece.id)
-            self.move_visually(piece_x, piece_y, target_piece, promoted_piece)
             if target_piece is not None:
                 self.cv.delete(target_piece.id)
         # move piece in all other cases:

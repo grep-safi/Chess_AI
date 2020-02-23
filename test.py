@@ -4,11 +4,9 @@ class some:
 
 
 
+l = [12,23, 32, 5]
 
-first = some('clobber')
-arr = [first, 100023, 'helloo', 12]
-narr = ['bye', arr]
-narr = 5
-
-if type(narr) is list and narr[0] == 'bye':
-    print('yeeeeeeeeeeeeeeeeeeeee')
+if 12 in l:
+    print('wooornlkgasndgklsadn')
+if 2 in l:
+    print('wooornlkgasndgklsadn')

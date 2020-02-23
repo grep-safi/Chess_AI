@@ -70,6 +70,7 @@ class Chess:
         return True
 
     def in_check(self, pieces, king, check_illegal=False):
+        print('I AAM MUFASA!!', king)
         king_position = [king.x, king.y]
 
         for piece in pieces:
