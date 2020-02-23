@@ -61,8 +61,8 @@ def get_children(m_board, enemy=True):
             viable_move = False
             tried_castling = False
             print('i am the piece move', piece_move)
-            if len(piece_move) == 6 and piece_move[5]:
-                viable_move = True
+            if len(piece_move) == 6:
+                viable_move = piece_move[5]
                 tried_castling = True
             elif len(piece_move) == 3:
                 viable_move = not (board.is_illegal_state(piece.color))
@@ -72,13 +72,12 @@ def get_children(m_board, enemy=True):
                 new_child = [board.clone(), board.evaluate_board(), prev_x, prev_y, piece.x, piece.y]
                 children.append(new_child)
 
-            if tried_castling:
-                print(' i have tried to castle miserably')
+            if tried_castling and viable_move:
                 prev_king_x, prev_king_y, prev_rook_x, prev_rook_y, rook, success = piece_move
                 piece.revert(prev_king_x, prev_king_y, None, board)
                 rook.revert(prev_rook_x, prev_rook_y, None, board)
                 rook.first = True
-            else:
+            elif len(piece_move) == 3:
                 prev_x, prev_y, target_piece = piece_move
                 piece.revert(prev_x, prev_y, target_piece, board)
 
