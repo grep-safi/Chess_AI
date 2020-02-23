@@ -83,7 +83,7 @@ class Piece:
         # If move is illegal, revert back to original state
         if chess.is_illegal_state(self.color):
             self.revert(prev_x, prev_y, target_piece, chess)
-            return False
+            return [False, False]
 
         promotion = isinstance(self, Pawn) and self.is_promoting(y)
 

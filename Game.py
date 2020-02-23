@@ -83,7 +83,7 @@ class Game:
 
         piece_move = piece.move(move_x, move_y, self.chess)
         print('this is the piece movee youve looking for', piece_move)
-        if len(piece_move) == 6 and piece_move[3]:
+        if len(piece_move) == 4 and piece_move[3]:
             self.move_visually(piece_x, piece_y, None, piece)
             self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
         # piece_move if promotion
@@ -95,8 +95,9 @@ class Game:
             promoted_id = self.cv.create_image(promoted_x, promoted_y, image=promoted_image, anchor='nw')
             promoted_piece.id = promoted_id
             self.cv.delete(piece.id)
-
             self.move_visually(piece_x, piece_y, target_piece, promoted_piece)
+            if target_piece is not None:
+                self.cv.delete(target_piece.id)
         # move piece in all other cases:
         elif len(piece_move) == 2 and piece_move[0]:
             self.move_visually(piece_x, piece_y, target_piece, piece)
@@ -132,15 +133,13 @@ class Game:
                 #               that returns true if castling is legal]
                 print('who am i, where am i', self.current_piece, prev_x, prev_y)
                 print(piece_move)
-                if len(piece_move) == 6 and piece_move[3]:
-                    print('I TRIED TO DO CASTLE')
+                if len(piece_move) == 4 and piece_move[3]:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, None, self.current_piece)
                     self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
-        #            self.minimax_AI()
+                    self.minimax_AI()
                 # piece_move in all other cases
                 elif len(piece_move) == 2 and piece_move[0] and piece_move[1]:
-                    print('PORMOTION')
                     self.white_turn = not self.white_turn
                     promoted_piece = self.chess.matrix[piece.x][piece.y]
                     promoted_x, promoted_y = self.convert_grid_to_pixel(piece.x, piece.y)
@@ -149,13 +148,14 @@ class Game:
                     promoted_id = self.cv.create_image(promoted_x, promoted_y, image=promoted_image, anchor='nw')
                     promoted_piece.id = promoted_id
                     self.cv.delete(piece.id)
-                    self.move_visually(prev_x, prev_y, target_piece, promoted_piece)
-                    # self.minimax_AI()
+                    if target_piece is not None:
+                        self.cv.delete(target_piece.id)
+                    self.minimax_AI()
                 elif len(piece_move) == 2 and piece_move[0]:
                     print('every other goddamn easy move')
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
-         #           self.minimax_AI()
+                    self.minimax_AI()
         self.piece_clicked = False
         self.chess.print_grid()
 
