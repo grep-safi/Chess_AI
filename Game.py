@@ -118,16 +118,17 @@ class Game:
                 # Checks for list because only castling will return list
                 # piece_move = [previous rook x, previous rook y, rook object, boolean
                 #               that returns true if castling is legal]
+                print(piece_move)
                 if type(piece_move) is list and piece_move[3]:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, None, self.current_piece)
                     self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
-                    self.minimax_AI()
+#                    self.minimax_AI()
                 # piece_move in all other cases
                 elif type(piece_move) is not list and piece_move:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
-                    self.minimax_AI()
+ #                   self.minimax_AI()
         self.piece_clicked = False
 
     def move_visually(self, x, y, target_piece, this_piece):
