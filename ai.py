@@ -73,6 +73,7 @@ def get_children(m_board, enemy=True):
                 children.append(new_child)
 
             if tried_castling:
+                print(' i have tried to castle miserably')
                 prev_king_x, prev_king_y, prev_rook_x, prev_rook_y, rook, success = piece_move
                 piece.revert(prev_king_x, prev_king_y, None, board)
                 rook.revert(prev_rook_x, prev_rook_y, None, board)

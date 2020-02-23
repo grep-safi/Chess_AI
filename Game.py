@@ -82,14 +82,15 @@ class Game:
         target_piece = self.chess.matrix[move_x][move_y]
 
         piece_move = piece.move(move_x, move_y, self.chess)
+        print('this is the piece movee youve looking for', piece_move)
         if type(piece_move) is list and piece_move[3]:
             self.move_visually(piece_x, piece_y, None, piece)
             self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
             # piece_move in all other cases
         elif type(piece_move) is not list and piece_move:
             self.move_visually(piece_x, piece_y, target_piece, piece)
-            self.move_visually(piece_x, piece_y, target_piece, piece)
 
+        self.chess.print_grid()
         self.white_turn = not self.white_turn
 
     def random_AI(self):
