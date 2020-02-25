@@ -224,6 +224,7 @@ class Pawn(Piece):
         self.x = prev_x
         self.y = prev_y
 
+
 class Rook(Piece):
     def __init__(self, color, grid_x, grid_y):
         self.file = 'images/' + color + '_ROOK.png'
