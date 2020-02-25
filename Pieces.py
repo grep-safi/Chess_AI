@@ -49,9 +49,11 @@ class Piece:
         chess.matrix[x][y] = self
 
         if target_piece is not None:
-            if target_piece.color == 'WHITE' and target_piece in chess.white_pieces:
+#            if target_piece.color == 'WHITE' and target_piece in chess.white_pieces:
+#            elif target_piece.color == 'BLACK' and target_piece in chess.black_pieces:
+            if target_piece.color == 'WHITE':
                 chess.white_pieces.remove(target_piece)
-            elif target_piece.color == 'BLACK' and target_piece in chess.black_pieces:
+            elif target_piece.color == 'BLACK':
                 chess.black_pieces.remove(target_piece)
 
         return [prev_x, prev_y, target_piece]
@@ -81,11 +83,13 @@ class Piece:
         prev_x, prev_y, target_piece = self.tentative_move(x, y, chess)
 
         # If move is illegal, revert back to original state
-        if chess.is_illegal_state(self.color):
-            self.revert(prev_x, prev_y, target_piece, chess)
-            return [False, False]
-
         promotion = isinstance(self, Pawn) and self.is_promoting(y)
+        if chess.is_illegal_state(self.color):
+            if promotion:
+                self.revert_promotion(prev_x, prev_y, target_piece, chess)
+            else:
+                self.revert(prev_x, prev_y, target_piece, chess)
+            return [False, False]
 
         # This piece has made its first move, so set
         # self.first to false
@@ -166,12 +170,7 @@ class Pawn(Piece):
         return possible_moves
 
     def is_promoting(self, y):
-        if self.color == 'WHITE' and y == 0:
-            return True
-        elif self.color == 'BLACK' and y == 7:
-            return True
-
-        return False
+        return y == 0 or y == 7
 
     def tentative_promotion(self, x, y, chess):
         prev_x = self.x

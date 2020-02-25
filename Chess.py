@@ -1,4 +1,3 @@
-# Alter chcekmate functtion so thatt it includes black checkmate
 import copy
 from Pieces import Pawn
 from Pieces import Rook
