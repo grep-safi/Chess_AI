@@ -59,6 +59,9 @@ class Piece:
         return [prev_x, prev_y, target_piece]
 
     def revert(self, prev_x, prev_y, target_piece, chess):
+        if isinstance(self, Pawn) and self.is_promoting(self.y):
+            return self.revert_promotion(prev_x, prev_y, target_piece, chess)
+
         # Revert board back to previous state
         chess.matrix[self.x][self.y] = target_piece
         if target_piece is not None:
@@ -188,10 +191,10 @@ class Pawn(Piece):
             elif target_piece.color == 'BLACK':
                 chess.black_pieces.remove(target_piece)
 
-        if self.color == 'WHITE' and self in chess.white_pieces:
+        if self.color == 'WHITE':
             chess.white_pieces.remove(self)
             chess.white_pieces.append(new_queen)
-        elif self.color == 'BLACK' and self in chess.black_pieces:
+        elif self.color == 'BLACK':
             chess.black_pieces.remove(self)
             chess.black_pieces.append(new_queen)
 
