@@ -71,18 +71,17 @@ class Game:
         alpha = [None, -1000000]  # some very large number
         beta = [None, 1000000]  # some very large number
         best_move = minimax([AI_board, 10000], depth, alpha, beta, True, True)
-        print(best_move)
+        # print(best_move)
 #        best_move = minimax([AI_board, 10000], depth, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
-
-#        print('this was the best move I could think of: ', piece_x, piece_y, move_x, move_y)
+        print('this was the best move I could think of: ', best_move[1])
 #        board_obj.print_grid()
 
         piece = self.chess.matrix[piece_x][piece_y]
         target_piece = self.chess.matrix[move_x][move_y]
 
         piece_move = piece.move(move_x, move_y, self.chess)
-        print('this is the piece movee youve looking for', piece_move)
+        # print('this is the piece movee youve looking for', piece_move)
         if len(piece_move) == 4 and piece_move[3]:
             self.move_visually(piece_x, piece_y, None, piece)
             self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
@@ -130,8 +129,8 @@ class Game:
                 # Checks for list because only castling will return list
                 # piece_move = [previous rook x, previous rook y, rook object, boolean
                 #               that returns true if castling is legal]
-                print('who am i, where am i', self.current_piece, prev_x, prev_y)
-                print(piece_move)
+                # print('who am i, where am i', self.current_piece, prev_x, prev_y)
+                # print(piece_move)
                 if len(piece_move) == 4 and piece_move[3]:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, None, self.current_piece)

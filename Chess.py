@@ -64,12 +64,12 @@ class Chess:
                 if not is_in_check:
                     return False
 
-        print('CHECKMATE HAS BEEEN REACHED')
-        print(king.color, ' has been MATED!')
+        # print('CHECKMATE HAS BEEEN REACHED')
+        # print(king.color, ' has been MATED!')
         return True
 
     def in_check(self, pieces, king, check_illegal=False):
-        print('I AAM MUFASA!!', king)
+        # print('I AAM MUFASA!!', king)
         king_position = [king.x, king.y]
 
         for piece in pieces:
@@ -118,6 +118,8 @@ class Chess:
             total_black += b_piece.val
 
         value = total_black - total_white
+
+        # print('This is the current evaluation', value)
         return value
 
     def clone(self):
