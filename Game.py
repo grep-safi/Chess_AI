@@ -31,7 +31,7 @@ class Game:
         self.drawPieces()
 
     def drawPieces(self):
-        for piece_num in range(16):
+        for piece_num in range(len(self.chess.black_pieces)):
             b_piece = self.chess.black_pieces[piece_num]
             w_piece = self.chess.white_pieces[piece_num]
 
@@ -126,17 +126,17 @@ class Game:
                 prev_y = self.current_piece.y
                 piece_move = self.current_piece.move(grid_x, grid_y, self.chess)
                 piece = self.current_piece
-                # Checks for list because only castling will return list
                 # piece_move = [previous rook x, previous rook y, rook object, boolean
                 #               that returns true if castling is legal]
                 # print('who am i, where am i', self.current_piece, prev_x, prev_y)
                 # print(piece_move)
+                # Piece move is castling
                 if len(piece_move) == 4 and piece_move[3]:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, None, self.current_piece)
                     self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
                     self.minimax_AI()
-                # piece_move in all other cases
+                # piece_move in promotion
                 elif len(piece_move) == 2 and piece_move[0] and piece_move[1]:
                     self.white_turn = not self.white_turn
                     promoted_piece = self.chess.matrix[piece.x][piece.y]
@@ -149,8 +149,9 @@ class Game:
                     if target_piece is not None:
                         self.cv.delete(target_piece.id)
                     self.minimax_AI()
+                # every other move that's not castling or promotion
                 elif len(piece_move) == 2 and piece_move[0]:
-                    print('every other goddamn easy move')
+                    # print('every other goddamn easy move')
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
                     self.minimax_AI()

@@ -30,7 +30,8 @@ def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
                 break
 
         if (first_layer):
-            print('this is it boys. i have the maxiimum value', max_eval[1])
+            pass
+            # print('this is it boys. i have the maxiimum value', max_eval[1])
 
         return max_eval
     else:
@@ -65,6 +66,7 @@ def get_children(m_board, depth, enemy=True):
 
     children = []
     for piece in pieces:
+        first_move_of_piece = piece.first
         possible_moves = piece.possible_moves(board.matrix)
         for move in possible_moves:
             piece_move = piece.tentative_move(move[0], move[1], board)
@@ -80,13 +82,6 @@ def get_children(m_board, depth, enemy=True):
             if viable_move:
                 piece.first = False
                 eval = board.evaluate_board()
-                if (move[0] == 0 and move[1] == 3 and piece.color == 'BLACK'):
-                    print('i am the evaluator', eval)
-                    print('i am thee piecee', piece.color, piece.x, piece.y, piece)
-                    print('i am the depth val', depth)
-                    print(board.print_grid())
-                    print()
-                    print()
 
                 new_child = [board.clone(), eval, prev_x, prev_y, piece.x, piece.y]
                 children.append(new_child)
@@ -100,7 +95,7 @@ def get_children(m_board, depth, enemy=True):
                 prev_x, prev_y, target_piece = piece_move
                 piece.revert(prev_x, prev_y, target_piece, board)
 
-            piece.first = True
+            piece.first = first_move_of_piece
 
 #    board.print_grid()
 #    print('End ----------------------------------------------------->')

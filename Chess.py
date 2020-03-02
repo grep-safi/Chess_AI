@@ -26,7 +26,7 @@ class Chess:
 
         if main:
             self.loadMinorPieces()
-            self.loadMajorPieces()
+            # self.loadMajorPieces()
 
         self.piece_in_check = []
 
@@ -165,15 +165,35 @@ class Chess:
 
     # Loads pawns
     def loadMinorPieces(self):
-        for i in range(8):
-            black_pawn_piece = Pawn('BLACK', i, 1)
-            self.matrix[i][1] = black_pawn_piece
+        for i in range(1):
+            black_pawn_piece = Pawn('BLACK', i, 2)
+            self.matrix[i][2] = black_pawn_piece
 
             white_pawn_piece = Pawn('WHITE', i, 6)
             self.matrix[i][6] = white_pawn_piece
 
             self.black_pieces.append(black_pawn_piece)
             self.white_pieces.append(white_pawn_piece)
+
+        self.matrix[4][7] = King('WHITE', 4, 7)
+        self.matrix[4][0] = King('BLACK', 4, 0)
+        self.black_king = self.matrix[4][0]
+        self.white_king = self.matrix[4][7]
+
+        self.matrix[0][0] = Rook('BLACK', 0, 0)
+        self.matrix[0][7] = Rook('WHITE', 0, 7)
+
+        self.matrix[2][7] = Bishop('WHITE', 2, 7)
+        self.matrix[2][0] = Bishop('BLACK', 2, 0)
+
+        self.black_pieces.append(self.black_king)
+        self.white_pieces.append(self.white_king)
+
+        self.black_pieces.append(self.matrix[0][0])
+        self.white_pieces.append(self.matrix[0][7])
+
+        self.white_pieces.append(self.matrix[2][7])
+        self.black_pieces.append(self.matrix[2][0])
 
     # Loads Kings, Queens, Bishops, Knights, and Rooks
     def loadMajorPieces(self):
@@ -187,7 +207,7 @@ class Chess:
         self.matrix[5][0] = Bishop('BLACK', 5, 0)
 
         self.matrix[3][0] = Queen('BLACK', 3, 0)
-        self.matrix[4][0] = King('BLACK', 4, 0)
+
 
         self.matrix[0][7] = Rook('WHITE', 0, 7)
         self.matrix[7][7] = Rook('WHITE', 7, 7)
@@ -199,10 +219,7 @@ class Chess:
         self.matrix[5][7] = Bishop('WHITE', 5, 7)
 
         self.matrix[3][7] = Queen('WHITE', 3, 7)
-        self.matrix[4][7] = King('WHITE', 4, 7)
 
-        self.black_king = self.matrix[4][0]
-        self.white_king = self.matrix[4][7]
 
         for i in range(8):
             black_piece = self.matrix[i][0]
