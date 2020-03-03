@@ -3,7 +3,7 @@ def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
         board_val = mama_board[1]
         return [mama_board, board_val]
     if AI_move:
-        max_eval = [None, -1000000]  # some very small number
+        max_eval = [None, -1000000]
         baby_boards = get_children(mama_board, depth, enemy=False)
         for baby_board in baby_boards:
             eval = minimax(baby_board, depth - 1, alpha, beta, False, False)
@@ -47,9 +47,6 @@ def get_children(m_board, depth, enemy=True):
     if enemy:
         pieces = board.white_pieces
 
-#    print('Start ----------------------------------------------------->')
-#    board.print_grid()
-
     children = []
     for piece in pieces:
         first_move_of_piece = piece.first
@@ -83,6 +80,4 @@ def get_children(m_board, depth, enemy=True):
 
             piece.first = first_move_of_piece
 
-#    board.print_grid()
-#    print('End ----------------------------------------------------->')
     return children

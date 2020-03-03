@@ -1,5 +1,5 @@
 import tkinter as tk
-from ai import minimax
+from AI import minimax
 import random
 from Chess import Chess
 
@@ -93,7 +93,6 @@ class Game:
         elif len(piece_move) == 2 and piece_move[0]:
             self.move_visually(piece_x, piece_y, target_piece, piece)
 
-        self.chess.print_grid()
         self.white_turn = not self.white_turn
 
     def random_AI(self):
@@ -120,10 +119,7 @@ class Game:
                 piece_move = self.current_piece.move(grid_x, grid_y, self.chess)
                 piece = self.current_piece
                 # piece_move = [previous rook x, previous rook y, rook object, boolean
-                #               that returns true if castling is legal]
-                # print('who am i, where am i', self.current_piece, prev_x, prev_y)
-                # print(piece_move)
-                # Piece move is castling
+                # that returns true if castling is legal]
                 if len(piece_move) == 4 and piece_move[3]:
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, None, self.current_piece)
@@ -144,12 +140,10 @@ class Game:
                     self.minimax_AI()
                 # every other move that's not castling or promotion
                 elif len(piece_move) == 2 and piece_move[0]:
-                    # print('every other goddamn easy move')
                     self.white_turn = not self.white_turn
                     self.move_visually(prev_x, prev_y, target_piece, self.current_piece)
                     self.minimax_AI()
         self.piece_clicked = False
-        self.chess.print_grid()
 
     def move_visually(self, x, y, target_piece, this_piece):
         # If we killed a piece, remove it
@@ -169,7 +163,6 @@ class Game:
         self.cv.move(this_piece.id, difference_x, difference_y)
 
     def removeCircles(self):
-#        print('someone is calling me')
         for circle in self.circles:
             self.cv.delete(circle)
 
@@ -196,7 +189,6 @@ class Game:
             y1 = x[3] + r + 30
             id_num = self.cv.create_oval(x0, y0, x1, y1, fill="#ed7979")
             self.circles.append(id_num)
-            # printa("coords of oval", x0,y0,x1,y1)
 
         return True
 

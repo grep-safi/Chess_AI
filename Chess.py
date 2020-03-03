@@ -74,12 +74,9 @@ class Chess:
                 if not is_in_check:
                     return False
 
-        # print('CHECKMATE HAS BEEEN REACHED')
-        # print(king.color, ' has been MATED!')
         return True
 
     def in_check(self, pieces, king, check_illegal=False):
-        # print('I AAM MUFASA!!', king)
         king_position = [king.x, king.y]
 
         for piece in pieces:
@@ -132,7 +129,6 @@ class Chess:
         value = total_black - total_white
         self.board_score = value
 
-        # print('This is the current evaluation', value)
         return value
 
     def evaluate_position(self, piece, white=False):
