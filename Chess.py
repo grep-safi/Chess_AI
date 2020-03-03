@@ -26,9 +26,19 @@ class Chess:
 
         if main:
             self.loadMinorPieces()
-            # self.loadMajorPieces()
+            self.loadMajorPieces()
 
         self.piece_in_check = []
+        self.board_score = 0
+
+        self.pawn_table = []
+        self.knight_table = []
+        self.bishop_table = []
+        self.rook_table = []
+        self.king_table = []
+        self.queen_table = []
+
+        self.loadTables()
 
     # Check if moving king to any square removes it from check
     # Check if moving any of king's pieces to any square (including enemy
@@ -113,14 +123,41 @@ class Chess:
 
         for w_piece in self.white_pieces:
             total_white += w_piece.val
+            total_white += self.evaluate_position(w_piece, white=True)
 
         for b_piece in self.black_pieces:
             total_black += b_piece.val
+            total_black += self.evaluate_position(b_piece, white=False)
 
         value = total_black - total_white
+        self.board_score = value
 
         # print('This is the current evaluation', value)
         return value
+
+    def evaluate_position(self, piece, white=False):
+        index_1 = 0
+        index_2 = 0
+        if white:
+            index_1 = 7 - piece.y
+            index_2 = piece.x
+        else:
+            index_1 = piece.y
+            index_2 = piece.x
+        if isinstance(piece, Pawn):
+            return self.pawn_table[index_1][index_2]
+        if isinstance(piece, Knight):
+            return self.knight_table[index_1][index_2]
+        if isinstance(piece, Bishop):
+            return self.bishop_table[index_1][index_2]
+        if isinstance(piece, Rook):
+            return self.rook_table[index_1][index_2]
+        if isinstance(piece, Queen):
+            return self.queen_table[index_1][index_2]
+        if isinstance(piece, King):
+            return self.king_table[index_1][index_2]
+
+        return 0
 
     def clone(self):
         board_clone = Chess(main=False)
@@ -165,35 +202,15 @@ class Chess:
 
     # Loads pawns
     def loadMinorPieces(self):
-        for i in range(1):
-            black_pawn_piece = Pawn('BLACK', i, 2)
-            self.matrix[i][2] = black_pawn_piece
+        for i in range(8):
+            black_pawn_piece = Pawn('BLACK', i, 1)
+            self.matrix[i][1] = black_pawn_piece
 
             white_pawn_piece = Pawn('WHITE', i, 6)
             self.matrix[i][6] = white_pawn_piece
 
             self.black_pieces.append(black_pawn_piece)
             self.white_pieces.append(white_pawn_piece)
-
-        self.matrix[4][7] = King('WHITE', 4, 7)
-        self.matrix[4][0] = King('BLACK', 4, 0)
-        self.black_king = self.matrix[4][0]
-        self.white_king = self.matrix[4][7]
-
-        self.matrix[0][0] = Rook('BLACK', 0, 0)
-        self.matrix[0][7] = Rook('WHITE', 0, 7)
-
-        self.matrix[2][7] = Bishop('WHITE', 2, 7)
-        self.matrix[2][0] = Bishop('BLACK', 2, 0)
-
-        self.black_pieces.append(self.black_king)
-        self.white_pieces.append(self.white_king)
-
-        self.black_pieces.append(self.matrix[0][0])
-        self.white_pieces.append(self.matrix[0][7])
-
-        self.white_pieces.append(self.matrix[2][7])
-        self.black_pieces.append(self.matrix[2][0])
 
     # Loads Kings, Queens, Bishops, Knights, and Rooks
     def loadMajorPieces(self):
@@ -207,7 +224,7 @@ class Chess:
         self.matrix[5][0] = Bishop('BLACK', 5, 0)
 
         self.matrix[3][0] = Queen('BLACK', 3, 0)
-
+        self.matrix[4][0] = King('BLACK', 4, 0)
 
         self.matrix[0][7] = Rook('WHITE', 0, 7)
         self.matrix[7][7] = Rook('WHITE', 7, 7)
@@ -219,7 +236,10 @@ class Chess:
         self.matrix[5][7] = Bishop('WHITE', 5, 7)
 
         self.matrix[3][7] = Queen('WHITE', 3, 7)
+        self.matrix[4][7] = King('WHITE', 4, 7)
 
+        self.black_king = self.matrix[4][0]
+        self.white_king = self.matrix[4][7]
 
         for i in range(8):
             black_piece = self.matrix[i][0]
@@ -227,6 +247,73 @@ class Chess:
 
             self.black_pieces.append(black_piece)
             self.white_pieces.append(white_piece)
+
+    def loadTables(self):
+        self.pawn_table = [
+            [0,  0,  0,  0,  0,  0,  0,  0],
+            [5, 10, 10, -20, -20, 10, 10,  5],
+            [5, -5, -10,  0,  0, -10, -5,  5],
+            [0,  0,  0, 20, 20,  0,  0,  0],
+            [5,  5, 10, 25, 25, 10,  5,  5],
+            [10, 10, 20, 30, 30, 20, 10, 10],
+            [50, 50, 50, 50, 50, 50, 50, 50],
+            [0,  0,  0,  0,  0,  0,  0,  0]
+        ]
+
+        self.knight_table = [
+            [-50,-40,-30,-30,-30,-30,-40,-50],
+            [-40,-20,  0,  5,  5,  0,-20,-40],
+            [-30,  5, 10, 15, 15, 10,  5,-30],
+            [-30,  0, 15, 20, 20, 15,  0,-30],
+            [-30,  5, 15, 20, 20, 15,  5,-30],
+            [-30,  0, 10, 15, 15, 10,  0,-30],
+            [-40,-20,  0,  0,  0,  0,-20,-40],
+            [-50,-40,-30,-30,-30,-30,-40,-50]
+        ]
+
+        self.bishop_table = [
+            [-20,-10,-10,-10,-10,-10,-10,-20],
+            [-10,  5,  0,  0,  0,  0,  5,-10],
+            [-10, 10, 10, 10, 10, 10, 10,-10],
+            [-10,  0, 10, 10, 10, 10,  0,-10],
+            [-10,  5,  5, 10, 10,  5,  5,-10],
+            [-10,  0,  5, 10, 10,  5,  0,-10],
+            [-10,  0,  0,  0,  0,  0,  0,-10],
+            [-20,-10,-10,-10,-10,-10,-10,-20]
+        ]
+
+        self.rook_table = [
+            [0,  0,  0,  5,  5,  0,  0,  0],
+            [-5,  0,  0,  0,  0,  0,  0, -5],
+            [-5,  0,  0,  0,  0,  0,  0, -5],
+            [-5,  0,  0,  0,  0,  0,  0, -5],
+            [-5,  0,  0,  0,  0,  0,  0, -5],
+            [-5,  0,  0,  0,  0,  0,  0, -5],
+            [5, 10, 10, 10, 10, 10, 10,  5],
+            [0,  0,  0,  0,  0,  0,  0,  0]
+        ]
+
+        self.queen_table = [
+            [-20,-10,-10, -5, -5,-10,-10,-20],
+            [-10,  0,  0,  0,  0,  0,  0,-10],
+            [-10,  5,  5,  5,  5,  5,  0,-10],
+            [  0,  0,  5,  5,  5,  5,  0, -5],
+            [-5,  0,  5,  5,  5,  5,  0, -5],
+            [-10,  0,  5,  5,  5,  5,  0,-10],
+            [-10,  0,  0,  0,  0,  0,  0,-10],
+            [-20,-10,-10, -5, -5,-10,-10,-20]
+        ]
+
+        self.king_table = [
+            [20, 30, 10,  0,  0, 10, 30, 20],
+            [20, 20,  0,  0,  0,  0, 20, 20],
+            [-10,-20,-20,-20,-20,-20,-20,-10],
+            [-20,-30,-30,-40,-40,-30,-30,-20],
+            [-30,-40,-40,-50,-50,-40,-40,-30],
+            [-30,-40,-40,-50,-50,-40,-40,-30],
+            [-30,-40,-40,-50,-50,-40,-40,-30],
+            [-30,-40,-40,-50,-50,-40,-40,-30]
+        ]
 
     # Prints board to console for debugging purposes
     def print_grid(self):

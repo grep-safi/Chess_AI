@@ -31,7 +31,7 @@ class Game:
         self.drawPieces()
 
     def drawPieces(self):
-        for piece_num in range(len(self.chess.black_pieces)):
+        for piece_num in range(16):
             b_piece = self.chess.black_pieces[piece_num]
             w_piece = self.chess.white_pieces[piece_num]
 
@@ -71,21 +71,15 @@ class Game:
         alpha = [None, -1000000]  # some very large number
         beta = [None, 1000000]  # some very large number
         best_move = minimax([AI_board, 10000], depth, alpha, beta, True, True)
-        # print(best_move)
-#        best_move = minimax([AI_board, 10000], depth, True, True)
         board_obj, board_val, piece_x, piece_y, move_x, move_y = best_move[0]
-        print('this was the best move I could think of: ', best_move[1])
-#        board_obj.print_grid()
 
         piece = self.chess.matrix[piece_x][piece_y]
         target_piece = self.chess.matrix[move_x][move_y]
 
         piece_move = piece.move(move_x, move_y, self.chess)
-        # print('this is the piece movee youve looking for', piece_move)
         if len(piece_move) == 4 and piece_move[3]:
             self.move_visually(piece_x, piece_y, None, piece)
             self.move_visually(piece_move[0], piece_move[1], None, piece_move[2])
-        # piece_move if promotion
         elif len(piece_move) == 2 and piece_move[0] and piece_move[1]:
             promoted_piece = self.chess.matrix[piece.x][piece.y]
             promoted_x, promoted_y = self.convert_grid_to_pixel(piece.x, piece.y)
@@ -96,7 +90,6 @@ class Game:
             self.cv.delete(piece.id)
             if target_piece is not None:
                 self.cv.delete(target_piece.id)
-        # move piece in all other cases:
         elif len(piece_move) == 2 and piece_move[0]:
             self.move_visually(piece_x, piece_y, target_piece, piece)
 

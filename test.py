@@ -1,12 +1,12 @@
-class some:
-    def __init__(self, name):
-        self.name = name
+pawn_table = [
+    [0,  0,  0,  0,  0,  0,  0,  0],
+    [5, 10, 10, -20, -20, 10, 10,  5],
+    [5, -5, -10,  0,  0, -10, -5,  5],
+    [0,  0,  0, 20, 20,  0,  0,  0],
+    [5,  5, 10, 25, 25, 10,  5,  5],
+    [10, 10, 20, 30, 30, 20, 10, 10],
+    [50, 50, 50, 50, 50, 50, 50, 50],
+    [0,  0,  0,  0,  0,  0,  0,  0]
+]
 
-
-
-l = [12,23, 32, 5]
-
-if 12 in l:
-    print('wooornlkgasndgklsadn')
-if 2 in l:
-    print('wooornlkgasndgklsadn')
+print(pawn_table[6][4])

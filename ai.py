@@ -1,26 +1,16 @@
 def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
     if depth == 0:
         board_val = mama_board[1]
-        # mama_board[0].print_grid()
         return [mama_board, board_val]
     if AI_move:
         max_eval = [None, -1000000]  # some very small number
         baby_boards = get_children(mama_board, depth, enemy=False)
         for baby_board in baby_boards:
             eval = minimax(baby_board, depth - 1, alpha, beta, False, False)
-            smt = False
-            if (eval[1] == 430):
-                smt = True
-                print('I made it::::::::::::::::::', eval[0][4], eval[0][5])
             if (max_eval[1] < eval[1]):
-                if smt:
-                    print('yes so then i made it as well')
-                print('YAAAS: ', max_eval[1])
                 max_eval = eval
                 if first_layer:
                     max_eval = [baby_board, eval[1]]
-                print('YAAAS PART TWOOOO', max_eval[1])
-
             if (alpha[1] < eval[1]):
                 alpha = eval
                 if first_layer:
@@ -29,13 +19,9 @@ def minimax(mama_board, depth, alpha, beta, AI_move, first_layer):
             if beta[1] <= alpha[1]:
                 break
 
-        if (first_layer):
-            pass
-            # print('this is it boys. i have the maxiimum value', max_eval[1])
-
         return max_eval
     else:
-        min_eval = [None, 1000000]  # some very large number
+        min_eval = [None, 1000000]
         baby_boards = get_children(mama_board, depth, enemy=True)
         for baby_board in baby_boards:
             eval = minimax(baby_board, depth - 1, alpha, beta, True, False)
